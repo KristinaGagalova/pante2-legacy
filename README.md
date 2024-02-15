@@ -44,36 +44,38 @@ The pipeline follows these main steps:
 5. Compute multiple sequence alignments for the families using [DECIPHER](http://www2.decipher.codes/).
 6. Classify the families using RepeatClassifier (part of RepeatModeler).
 7. Search all genomes for more distant matches to the families (and optionally species models from [RepBase](https://www.girinst.org/repbase/)/[DFAM](https://dfam.org/home)) using [RepeatMasker](http://www.repeatmasker.org/RMDownload.html).
-8. Combine all TE and ncRNA predictions into a final GFF files and soft-mask the genomes using this combined set.
+8. Combine all TE and ncRNA predictions into final GFF files and soft-mask the genomes using this combined set.
 
 
 The reason that LTRDigest/LTRHarvest is currently excluded from the family clustering is that
 the predicted LTRs tend to be quite big or contain nested elements, which tends to group non-related TEs into single clusters.
-Eventually I might implement a method to split the LTR predictions up to avoid this issue, but RepeatModeler tends to pick up important parts of LTRs anyway.
+Eventually, I might implement a method to split the LTR predictions up to avoid this issue, but RepeatModeler tends to pick up important parts of LTRs anyway.
 
 
 ## How to not use this pipeline.
 
 There are a couple of pipelines that do repeat annotation, but I haven't seen any that handle multiple genomes particularly well.
 
-Here are some honourable mentions:
+Here are some honorable mentions:
 
 - [REPET](https://urgi.versailles.inra.fr/Tools/REPET) is very comprehensive but famously buggy and difficult to install/configure.
 - [EDTA](https://github.com/oushujun/EDTA) looks fairly promising and is probably a good choice for plant genomes.
 - [PiRATE](https://bmcgenomics.biomedcentral.com/articles/10.1186/s12864-018-4763-1) is quite comprehensive.
-  It is distributed as a virtual machine, and is run via [Galaxy](https://usegalaxy.org/) within that VM.
-  This is probably convenient for people that only have a few genomes to run and would prefer to avoid the command line.
+  It is distributed as a virtual machine and is run via [Galaxy](https://usegalaxy.org/) within that VM.
+  This is probably convenient for people who only have a few genomes to run and would prefer to avoid the command line.
 
 
 Other pipelines tend to be focussed on inferring repeats from raw reads (e.g. [RepeatExplorer](http://repeatexplorer.org/) and don't offer much for genome annotation.
-There is another category of TE pipeline that focusses on insertion site prediction, including [McClintock](https://github.com/bergmanlab/mcclintock), [TEA](http://compbio.med.harvard.edu/Tea/), and [STEAK](https://github.com/applevir/STEAK).
-These pipelines are really only useful for organisms with existing, well-curated repeat families and for enabling specific TE-focussed sequencing experiments.
+There is another category of TE pipeline that focuses on insertion site prediction, including [McClintock](https://github.com/bergmanlab/mcclintock), [TEA](http://compbio.med.harvard.edu/Tea/), and [STEAK](https://github.com/applevir/STEAK).
+These pipelines are only useful for organisms with existing, well-curated repeat families and for enabling specific TE-focussed sequencing experiments.
 
 
 ## Running PanTE
 
 Assuming you have singularity and nextflow installed (See INSTALL).
-Say you have a bunch of genome fasta files in a folder `genomes/*.fasta`.
+Say you have a bunch of genome fasta files in a folder `genomes/*.fasta`. Before running the pipeline make sure:
+* The name of the fasta files does not contain spaces
+* The input fasta files should not contain line breaks from DOS format (make use of [dos2unix](https://dos2unix.sourceforge.io/) to convert the files generated in Windows, for example).
 
 ```bash
 nextflow run KristinaGagalova/pante2 -profile singularity -resume --genomes "genomes/*.fasta"
@@ -86,7 +88,7 @@ The results will be written to the `results` folder.
 
 
 If you provide the `--species` parameter, a separate pass of RepeatMasker will be run using the Dfam and/or RepBase databases instead of the custom libraries.
-If you would like to include this extra step I would highly recommend providing the [RepBase](https://www.girinst.org/repbase/) repeat masker database and the corresponsing [RepeatMasker metadata files](http://www.repeatmasker.org/libraries/) if you have access.
+If you would like to include this extra step I would highly recommend providing the [RepBase](https://www.girinst.org/repbase/) repeat masker database and the corresponding [RepeatMasker metadata files](http://www.repeatmasker.org/libraries/) if you have access.
 If you do have access to RepBase, it's probably worth using it even if you aren't using the `--species` option because it might help improve family annotation.
 
 The value given to `--species` can be any NCBI taxonomy name and is provided to the RepeatMasker option `-species`.
@@ -103,7 +105,7 @@ nextflow run KristinaGagalova/pante2 -profile singularity -resume \
 If you would like to include [RNAmmer](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=rnammer&version=1.2&packageversion=1.2&platform=Unix) rDNA predictions, you'll need to either install it on all machines that you're running the pipeline on, or you can build the extra container that does the install for you (See [containers/README.md](containers#proprietary-software)).
 
 Then you can provide the `--rnammer` flag to enable those steps.
-Here i'm assuming that you've installed RNAmmer locally.
+Here I'm assuming that you've installed RNAmmer locally.
 
 ```bash
 nextflow run /path/to/pante2/main.nf -profile singularity -resume \
@@ -126,13 +128,13 @@ nextflow run /path/to/pante2/main.nf -profile docker -resume \
 
 The pipeline is written in [Nextflow](https://www.nextflow.io/), which you will need to install on the executing computer.
 The pipeline itself has many dependencies and I have customised RepeatMasker/RepeatModeler a bit, so I HIGHLY recommend that you use the docker or singularity containers.
-If you really want to install the software yourself look in the `containers` folder and follow the `Dockerfiles`.
+If you want to install the software yourself look in the `containers` folder and follow the `Dockerfiles`.
 
 To run the containers, you'll need to install either [Singularity](https://sylabs.io/docs/) (recommended) or [Docker](https://www.docker.com/).
 
 The pipeline itself will pull the containers for you from [Sylabs Cloud](https://cloud.sylabs.io/library/kristinagagalova/default/pante2) or [DockerHub](https://hub.docker.com/r/kristinagagalova/pante2).
 
-On an ubuntu server, the process to install nextflow and singularity might look like this.
+On an Ubuntu server, the process to install nextflow and singularity might look like this.
 
 ```bash
 set -eu
@@ -192,7 +194,7 @@ The configuration to use at runtime is controlled by the `-profile` parameter.
 
 Multiple profiles can be specified by separating them with a comma e.g. `-profile standard,singularity`.
 PanTE generally has a separate config file for a compute environment (e.g. cloud, HPC, laptop), and for a software environment (e.g. singularity, docker, local).
-It's likely that you'll have to tailor the compute configuration, but you shouldn't need to change the software config so this allows you to mix-and-match.
+You'll likely have to tailor the compute configuration, but you shouldn't need to change the software config so this allows you to mix-and-match.
 
 Available profiles for containerised software environments are:
 
@@ -210,14 +212,15 @@ Available compute profiles are:
 
 - `standard` - (Default) Appropriate for running on a laptop with 4 CPUs and ~8GB RAM.
 - `nimbus` - Appropriate for cloud VMs or a local desktop with 2-16 CPUs and ~4-64 GB RAM each (depending on the Nimbus VM flavour you have access to).
-- `pawsey_zeus` - Is a config for running on the [Pawsey Zeus](https://pawsey.org.au/systems/zeus/) compute cluster using SLURM.
-  Use this as more of a template for setting up your own profile as HPC configuration is pretty specific (and in this case contains some hard coded user options, sorry).
-
+- `pawsey_setonix` - Is a config for running on the [Pawsey Setonix](https://nf-co.re/configs/pawsey_setonix) compute cluster using SLURM.
+- `dug` - Config to run on [DUG](https://dug.com/) compute cluster.
+- `singularity` - system agnostic profile with reference to Sylabs [image](https://cloud.sylabs.io/library/kristinagagalova/default/pante2). 
+- `docker` - system agnostic profile with reference to DockerHub [image](https://hub.docker.com/repository/docker/kristinagagalova/pante2/general).
 
 To add your own profile, you can use the files in `./conf` as a template, and make sure you add them to `nextflow.config` under the `profiles` block.
 
 For more info on configuration see the [nextflow documentation](https://www.nextflow.io/docs/latest/config.html).
-You can also raise an issue on the github repository and I'll try to help.
+You can also raise an issue on the GitHub repository and I'll try to help.
 
 
 ## Parameters
@@ -228,12 +231,12 @@ You can also raise an issue on the github repository and I'll try to help.
 | `--outdir` | `results`| The directory to store the results in. |
 | `--repbase` | Optional | The RepBase RepeatMasker edition tarball to use to construct the repeatmasker database. Download from [https://www.girinst.org/server/RepBase/index.php](https://www.girinst.org/server/RepBase/index.php). |
 | `--rm_meta` | Optional | The RepeatMasker meta tarball to use to construct the repeatmasker database. Download from [http://www.repeatmasker.org/libraries/](http://www.repeatmasker.org/libraries/). Make sure the version matches the version of Repbase if you're using RepBase. |
-| `--dfam_hmm` | Optional | Pre downloaded Dfam HMMs to use. Will download latest if this isn't provided. |
-| `--dfam_hmm_url` | URL to `Dfam.hmm.gz` | The url to download the Dfam HMMs from if `--dfam_hmm` isn't provided. |
-| `--dfam_embl` | Optional | Pre downloaded Dfam consensus sequences to use. Will download latest if this isn't provided. |
+| `--dfam_h5` | Optional | Pre downloaded Dfam h5 to use. Will download the latest if this isn't provided. |
+| `--dfam_h5_url` | URL to `dfam38_full.0.h5.gz` (works with version 4.1.6 of RepeatMasker | The url to download the Dfam h5 from if `--dfam_h5` isn't provided. |
+| `--dfam_embl` | Optional | Pre downloaded Dfam consensus sequences to use. Will download the latest if this isn't provided. |
 | `--dfam_embl_url` | URL to `Dfam.embl.gz` | The url to download the Dfam consensus sequences from if `--dfam_embl` isn't provided. |
-| `--rm_repeatpeps` | Optional | Repeat proteins to use for repeatmasker. By default this is taken from the RepeatMasker `Library/RepeatPeps.lib` and assumes that you're using the containers. |
-| `--rm_species` | Optional | An NCBI taxonomy name to use to predict transposable elements from RepBase with. Something like `fungi` usually works fine. |
+| `--rm_repeatpeps` | Optional | Repeat proteins to use for repeatmasker. By default, this is taken from the RepeatMasker `Library/RepeatPeps.lib` and assumes that you're using the containers. |
+| `--rm_species` | Optional | An NCBI taxonomy name to use to predict transposable elements from RepBase. Something like `fungi` usually works fine. |
 | `--mitefinder_profiles` | Optional | A text file for MiteFinderII containing profiles to search for. Corresponds to [https://github.com/screamer/miteFinder/blob/master/profile/pattern_scoring.txt]. By default will use a file pointed to by the `MITEFINDER_PROFILE` environment variable, which is set in the provided containers. |
 | `--noinfernal` | false | Don't run Infernal `cmscan` against Rfam. This can save some time. |
 | `--rfam` | Optional | Pre-downloaded Rfam CM models (un-gzipped) to use. |
@@ -270,12 +273,12 @@ You can also raise an issue on the github repository and I'll try to help.
 ## Examples
 
 A test dataset and example command is provided in the `test` folder.
-On a laptop this takes about an hour to run.
+On a laptop, this takes about an hour to run.
 
 
 ## Exit codes
 
-I'm hoping to add some better error-handling in the future to provide more useful/nextflow-agnostic tips to users.
+I'm hoping to add some better error handling in the future to provide more useful/nextflow-agnostic tips to users.
 In the meantime, it's just input parameter validation that is handled elegantly.
 
 - 0: All ok.
