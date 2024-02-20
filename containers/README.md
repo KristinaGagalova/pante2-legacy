@@ -4,18 +4,18 @@ This folder contains the Dockerfiles to build containers to run the pipeline.
 
 Prebuilt released/tagged versions are available at:
 
-* [sylabs repo](https://cloud.sylabs.io/library/kristinagagalova/default/pante2) for singularity
-* [docker repo](https://hub.docker.com/r/kristinagagalova/pante2/tags) for docker
+* [sylabs repo](https://cloud.sylabs.io/library/kristinagagalova/default/pante2-legacy) for singularity
+* [docker repo](https://hub.docker.com/r/kristinagagalova/pante2-legacy/tags) for docker
 
 To pull those images:
 
 ```
-singularity pull library://kristinagagalova/default/pante2:v1.0.0
+singularity pull library://kristinagagalova/default/pante2-legacy:v1.0.0
 
 ```
 
 ```
-docker pull kristinagagalova/pante2:v1.0.0
+docker pull kristinagagalova/pante2-legacy:v1.0.0
 
 ```
 
@@ -71,24 +71,24 @@ The following commands should work for Linux, Mac, and Linux emulators/VMs (e.g.
 
 ```
 # To build the monolithic docker image
-sudo make docker/pante2
+sudo make docker/pante2-legacy
 
 # To build a the singularity image.
-sudo make singularity/pante2.sif
+sudo make singularity/pante2-legacy.sif
 
 # To tidy the docker image registry and singularity cache.
 # Note that this may also remove docker images created by other methods.
 sudo make tidy
 
 # To remove all docker images and singularity images from your computer.
-# Will remove EVERYTHING, aka. the "help i've run out of root disk space" command.
+# Will remove EVERYTHING, aka. the "help I've run out of root disk space" command.
 sudo make clean
 ```
 
 Singularity images are placed in a `singularity` subdirectory with the extension `.sif`.
 
 Note that singularity images are built from docker images, so you may want to clean up the `docker images`.
-Note also that singularity leaves some potentially large tar files in tmp folders that wont be removed automatically.
+Note also that singularity leaves some potentially large tar files in tmp folders that won't be removed automatically.
 On my computers (ubuntu/fedora) these are put in `/var/tmp/docker-*`.
 It's worth deleting them.
 
@@ -114,19 +114,19 @@ git clone https://github.com/KristinaGagalova/pante2.git
 
 Download the source tar file `rnammer-1.2.src.tar.gz` into the `containers/rnammer-tar` subfolder.
 ```
-cd pante2/containers
+cd pante2-legacy/containers
 mkdir rnammer-tag
 cp /home/user/rnammer-1.2.src.tar.gz rnammer-tar/
 ```
 
 Build the docker container for RNAmmer.
 ```bash
-sudo make docker/pante2-rnammer RNAMMER_TAR=rnammer-tar/rnammer-1.2.Unix.tar.gz
+sudo make docker/pante2-rnammer-legacy RNAMMER_TAR=rnammer-tar/rnammer-1.2.Unix.tar.gz
 ```
 
 Build the singularity container for RNAmmer.
 ```bash
-sudo make singularity/pante2-rnammer.sif  RNAMMER_TAR=rnammer-tar/rnammer-1.2.Unix.tar.gz
+sudo make singularity/pante2-rnammer-legacy.sif  RNAMMER_TAR=rnammer-tar/rnammer-1.2.Unix.tar.gz
 ```
 
 This will create a new monolithic container with RNAmmer for you.
@@ -147,8 +147,8 @@ singularity build template.sif docker-daemon://template:latest # creates the sin
 To build the singularity containers
 
 ```bash
-sudo make singularity/pante2.sif
-sudo make singularity/pante2-rnammer.sif
+sudo make singularity/pante2-legacy.sif
+sudo make singularity/pante2-rnammer-legacy.sif
 ```
 
 
@@ -168,10 +168,10 @@ We have a convenience target for this in the Makefile.
 So you can run:
 
 ```bash
-sudo make docker/pante2.tar.gz
+sudo make docker/pante2-legacy.tar.gz
 
 # OR
-sudo make docker/pante2-rnammer.tar.gz
+sudo make docker/pante2-rnammer-legacy.tar.gz
 ```
 
 Which will put the tarball in the `docker` folder.
