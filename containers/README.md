@@ -60,7 +60,7 @@ If you really want to squeeze every bit of performance out of whatever you have,
 ## Build system
 
 Because there are a few different bits of software, the container is built locally and pushed rather than using auto-build tools.
-Dockerfiles and the Makefile that coordinates building is available at <github.com/KristinaGagalova/pante2/tree/version-update/containers>.
+Dockerfiles and the Makefile that coordinates building is available at <github.com/KristinaGagalova/pante2-legacy/tree/version-update/containers>.
 
 If you're uncomfortable about running unverified containers you might like to build it yourself.
 
@@ -109,7 +109,7 @@ decides if it needs to rebuild anything.
 
 Clone the repository
 ```
-git clone https://github.com/KristinaGagalova/pante2.git
+git clone https://github.com/KristinaGagalova/pante2-legacy.git
 ```
 
 Download the source tar file `rnammer-1.2.src.tar.gz` into the `containers/rnammer-tar` subfolder.
