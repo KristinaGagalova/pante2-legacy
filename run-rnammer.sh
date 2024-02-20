@@ -3,9 +3,11 @@
 NXF_ANSI_LOG=false nextflow run KristinaGagalova/pante2-legacy -r main \
   -profile nimbus,c16r64 \
   -resume \
+  --rnammer \
   --genomes "test/*.fasta" \
   --outdir "test/results" \
-  --dfam_h5 "/path/to/dfam_db/dfam38_full.0.h5.gz"
+  --dfam_h5 "/path/to/dfam_db/dfam38_full.0.h5.gz" \
+  -with-singularity "containers/singularity/pante2-rnammer-legacy.sif"
 
 #------- additional arguments
 # repbase database - example below:
