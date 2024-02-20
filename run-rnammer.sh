@@ -1,13 +1,13 @@
 #!/usr/bin/bash
 
-NXF_ANSI_LOG=false /home/kgagalova/src/nextflow-22.10.7/nextflow run KristinaGagalova/pante2 -r main \
+NXF_ANSI_LOG=false nextflow run KristinaGagalova/pante2-legacy -r main \
   -profile nimbus,c16r64 \
   -resume \
   --rnammer \
   --genomes "test/*.fasta" \
   --outdir "test/results" \
   --dfam_h5 "/path/to/dfam_db/dfam38_full.0.h5.gz" \
-  -with-singularity "containers/singularity/pante2-rnammer.sif" 
+  -with-singularity "containers/singularity/pante2-rnammer-legacy.sif"
 
 #------- additional arguments
 # repbase database - example below:

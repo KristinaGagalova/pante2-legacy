@@ -1,23 +1,27 @@
-# PanTE2 - version update!!!
+# PanTE2 - legacy version
 
-An updated version of PanTE. Please run the following command using singularity (nexflow version has to be <=22.10.7)
+This version of PanTE contains the updated software for PanTE and has fixed the database input for the repeat library creation.      
+
+Please run the following command using singularity (nexflow version has to be <=22.10.7)
 ```
-NXF_ANSI_LOG=false nextflow run KristinaGagalova/pante2 -r version-update \
+NXF_ANSI_LOG=false nextflow run KristinaGagalova/pante2-legacy -r main \
   -profile singularity,standard \
   -resume \
   --genomes "test/*.fasta" \
   --outdir "test/results"
 ```
 
-Otherwise clone the repo locally and run the command **inside the ```pante2``` directory**
+Otherwise clone the repo locally and run the command **inside the ```pante2-legacy``` directory**
 ```
-cd pante2
+cd pante2-legacy
 NXF_ANSI_LOG=false nextflow run ./main.nf \
   -profile singularity,standard \
   -resume \
   --genomes "test/*.fasta" \
   --outdir "test/results"
 ```
+
+Additionally use the ```run.sh``` and ```run-rnammer.sh``` template scripts to start your runs. Batch scripts for HCP can be found in the ```batch_scripts/```.      
 
 ***
 # PanTE
@@ -78,7 +82,7 @@ Say you have a bunch of genome fasta files in a folder `genomes/*.fasta`. Before
 * The input fasta files should not contain line breaks from DOS format (make use of [dos2unix](https://dos2unix.sourceforge.io/) to convert the files generated in Windows, for example).
 
 ```bash
-nextflow run KristinaGagalova/pante2 -profile singularity -resume --genomes "genomes/*.fasta"
+nextflow run KristinaGagalova/pante2-legacy -profile singularity -resume --genomes "genomes/*.fasta"
 ```
 
 Will run the full pipeline (except for RNAmmer and RepeatMasker using the "species" model).
@@ -94,7 +98,7 @@ If you do have access to RepBase, it's probably worth using it even if you aren'
 The value given to `--species` can be any NCBI taxonomy name and is provided to the RepeatMasker option `-species`.
 
 ```bash
-nextflow run KristinaGagalova/pante2 -profile singularity -resume \
+nextflow run KristinaGagalova/pante2-legacy -profile singularity -resume \
   --genomes "genomes/*.fasta" \
   --repbase "downloads/RepBaseRepeatMaskerEdition-20181026.tar.gz" \
   --rm_meta "downloads/RepeatMaskerMetaData-20181026.tar.gz" \
@@ -108,19 +112,19 @@ Then you can provide the `--rnammer` flag to enable those steps.
 Here I'm assuming that you've installed RNAmmer locally.
 
 ```bash
-nextflow run /path/to/pante2/main.nf -profile singularity -resume \
+nextflow run /path/to/pante2-legacy/main.nf -profile singularity -resume \
   --genomes "genomes/*.fasta" \
   --species "fungi" \
   --rnammer \
-  -with-singularity "containers/singularity/pante2-rnammer.sif"
+  -with-singularity "containers/singularity/pante2-rnammer-legacy.sif"
 ```
 or
 ```bash
-nextflow run /path/to/pante2/main.nf -profile docker -resume \
+nextflow run /path/to/pante2-legacy/main.nf -profile docker -resume \
   --genomes "genomes/*.fasta" \
   --species "fungi" \
   --rnammer \
-  -with-docker kristinagagalova/pante2-rnammer:v1.0.0
+  -with-docker kristinagagalova/pante2-rnammer-legacy:v1.0.0
 ```
 
 
@@ -132,7 +136,7 @@ If you want to install the software yourself look in the `containers` folder and
 
 To run the containers, you'll need to install either [Singularity](https://sylabs.io/docs/) (recommended) or [Docker](https://www.docker.com/).
 
-The pipeline itself will pull the containers for you from [Sylabs Cloud](https://cloud.sylabs.io/library/kristinagagalova/default/pante2) or [DockerHub](https://hub.docker.com/r/kristinagagalova/pante2).
+The pipeline itself will pull the containers for you from [Sylabs Cloud](https://cloud.sylabs.io/library/kristinagagalova/default/pante2-legacy) or [DockerHub](https://hub.docker.com/r/kristinagagalova/pante2-legacy).
 
 On an Ubuntu server, the process to install nextflow and singularity might look like this.
 
@@ -175,7 +179,7 @@ rm -rf -- singularity
 
 curl -s https://get.nextflow.io | bash
 
-./nextflow run KristinaGagalova/pante2 --help
+./nextflow run KristinaGagalova/pante2-legacy --help
 ```
 
 Because RNAmmer has a restricted license, you'll need to [download the source files yourself](https://services.healthtech.dtu.dk/cgi-bin/sw_request?software=rnammer&version=1.2&packageversion=1.2&platform=Unix) and either install it locally or build a special container that includes it.
@@ -198,8 +202,8 @@ You'll likely have to tailor the compute configuration, but you shouldn't need t
 
 Available profiles for containerised software environments are:
 
-- `singularity` - Use a pre-built singularity image containing all non-proprietary software available from https://cloud.sylabs.io/library/kristinagagalova/default/pante2.
-- `docker` - Use a pre-build docker container. Like `singularity`. Available from https://hub.docker.com/r/kristinagagalova/pante2.
+- `singularity` - Use a pre-built singularity image containing all non-proprietary software available from https://cloud.sylabs.io/library/kristinagagalova/default/pante2-legacy.
+- `docker` - Use a pre-build docker container. Like `singularity`. Available from https://hub.docker.com/r/kristinagagalova/pante2-legacy.
 
 If you don't specify a software environment profile, it is assumed that all dependencies are installed locally and available on your `PATH`.
 
@@ -214,8 +218,8 @@ Available compute profiles are:
 - `nimbus` - Appropriate for cloud VMs or a local desktop with 2-16 CPUs and ~4-64 GB RAM each (depending on the Nimbus VM flavour you have access to).
 - `pawsey_setonix` - Is a config for running on the [Pawsey Setonix](https://nf-co.re/configs/pawsey_setonix) compute cluster using SLURM.
 - `dug` - Config to run on [DUG](https://dug.com/) compute cluster.
-- `singularity` - system agnostic profile with reference to Sylabs [image](https://cloud.sylabs.io/library/kristinagagalova/default/pante2). 
-- `docker` - system agnostic profile with reference to DockerHub [image](https://hub.docker.com/repository/docker/kristinagagalova/pante2/general).
+- `singularity` - system agnostic profile with reference to Sylabs [image](https://cloud.sylabs.io/library/kristinagagalova/default/pante2-legacy). 
+- `docker` - system agnostic profile with reference to DockerHub [image](https://hub.docker.com/repository/docker/kristinagagalova/pante2-legacy/general).
 
 To add your own profile, you can use the files in `./conf` as a template, and make sure you add them to `nextflow.config` under the `profiles` block.
 

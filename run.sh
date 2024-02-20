@@ -1,6 +1,6 @@
 #!/usr/bin/bash
 
-NXF_ANSI_LOG=false /home/kgagalova/src/nextflow-22.10.7/nextflow run KristinaGagalova/pante2 -r main \
+NXF_ANSI_LOG=false nextflow run KristinaGagalova/pante2-legacy -r main \
   -profile nimbus,c16r64 \
   -resume \
   --genomes "test/*.fasta" \

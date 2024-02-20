@@ -35,14 +35,14 @@ HMMER2_PREFIX=$(INSTALL_BASE)/hmmer2/$(HMMER2_VERSION)
 
 # Targets
 # -----------------------------------------------------------
-docker: docker/pante2
+docker: docker/pante2-legacy
 
 # Singularity targets
-singularity: singularity/pante2.sif
-singularity: singularity/pante2-rnammer.sif
+singularity: singularity/pante2-legacy.sif
+singularity: singularity/pante2-rnammer-legacy.sif
 
 # Pull containers for dockerhub
-dockerpull: dockerpull/pante
+dockerpull: dockerpull/pante2-legacy
 
 clean:
 	docker stop $(shell docker ps -aq) || true
@@ -78,7 +78,7 @@ dockerpull/%:
 
 # Basic tools
 # THE MONOLITH(s)
-docker/pante2: pante2_env.Dockerfile env_yml/pante2_env.yml
+docker/pante2-legacy: pante2_env.Dockerfile env_yml/pante2_env.yml
 	docker build \
 	  --build-arg MITEFINDER_COMMIT="$(MITEFINDER_COMMIT)" \
 	  --build-arg MITEFINDER_REPO="$(MITEFINDER_REPO)" \
@@ -95,9 +95,9 @@ docker/pante2: pante2_env.Dockerfile env_yml/pante2_env.yml
 	@touch $@
 
 
-docker/pante2-rnammer: pante2-rnammer_env.Dockerfile env_yml/pante2-rnammer_env.yml
+docker/pante2-rnammer-legacy: pante2-rnammer_env.Dockerfile env_yml/pante2-rnammer_env.yml
 	if [ -z $(RNAMMER_TAR) ]; then \
-		echo "error RNAMMER_TAR is not set for pante2-rnammer. Please provide a value for RNAMMER_TAR. ex "sudo make docker/pante2-rnammer RNAMMER_TAR=/path/to/rnammertar")"; \
+		echo "error RNAMMER_TAR is not set for pante2-legacy-rnammer. Please provide a value for RNAMMER_TAR. ex "sudo make docker/pante2-rnammer-legacy RNAMMER_TAR=/path/to/rnammertar")"; \
 	else \
 		docker build \
                     --build-arg MITEFINDER_COMMIT="$(MITEFINDER_COMMIT)" \
