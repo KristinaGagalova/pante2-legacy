@@ -15,7 +15,7 @@ module load singularity/3.11.4-slurm
 # IMPORTANT: singularity cache dir needs to be specified in order to download image when running pante2 default
 export NXF_SINGULARITY_CACHEDIR="./work"
 
-NXF_ANSI_LOG=false nextflow run KristinaGagalova/pante2-legacy -r version-update \
+NXF_ANSI_LOG=false nextflow run KristinaGagalova/pante2-legacy -r main \
   -profile pawsey_setonix,singularity \
   -resume \
   --genomes "test/*.fasta" \
