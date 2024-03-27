@@ -840,7 +840,7 @@ process chunkifyGenomes {
 process runInfernal {
 
     label "infernal"
-    label "small_task"
+    label "big_task"
     time "5h"
 
     tag "${name}"
