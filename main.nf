@@ -558,7 +558,7 @@ if ( params.pfam ) {
               --no-check-certificate \
               -c \
               -O "{}.stk.gz" \
-              "https://www.ebi.ac.uk/interpro/wwwapi//entry/pfam/{}/?annotation=alignment:full&download"
+              "https://www.ebi.ac.uk/interpro/wwwapi/entry/pfam/{}/?annotation=alignment:seed&download"
 
         gunzip *.gz
         cd ..
