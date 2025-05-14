@@ -73,7 +73,7 @@ def helpMessage() {
         latest if this isn't provided.
 
     --dfam_embl_url <url>
-        http://dfam.org/releases/current/families/Dfam.embl.gz
+        http://dfam.org/releases/current/families/Dfam-1.embl.gz
         The url to download the Dfam consensus sequences from
         if `--dfam_embl` isn't provided.
 
@@ -123,7 +123,7 @@ def helpMessage() {
         Pre-downloaded Rfam GO term mappings to use.
 
     --rfam_gomapping_url <url>
-        ftp://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/rfam2go/rfam2go
+        https://ftp.ebi.ac.uk/pub/databases/Rfam/CURRENT/rfam2go/rfam2go
         The URL to download Rfam GO term mappings from if
         `--rfam_gomapping` isn't provided.
 
@@ -252,7 +252,7 @@ params.dfam_h5 = false
 params.dfam_h5_url = "https://www.dfam.org/releases/Dfam_3.8/families/FamDB/dfam38_full.0.h5.gz"
 
 params.dfam_embl = false
-params.dfam_embl_url = "http://dfam.org/releases/current/families/Dfam.embl.gz"
+params.dfam_embl_url = "http://dfam.org/releases/current/families/Dfam-1.embl.gz"
 
 params.rm_repeatpeps = false
 params.rm_species = false
