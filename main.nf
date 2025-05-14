@@ -869,7 +869,7 @@ process runInfernal {
     TRSIZE=\$(perl -E "say \${SIZE} * 2 / 1e6")
 
     cmscan \
-      ---cpu "${task.cpus}" \
+      --cpu "${task.cpus}" \
       -Z "\${TRSIZE}" \
       --cut_ga \
       --rfam \
