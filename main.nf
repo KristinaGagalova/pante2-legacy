@@ -2099,7 +2099,7 @@ process clusterTEFastas {
 process filterTEClusters {
 
     label "python3"
-    label "small_task"
+    label "big_task"
     time "4h"
 
     publishDir "${params.outdir}/pantes"
