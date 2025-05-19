@@ -64,7 +64,7 @@ def helpMessage() {
         if this isn't provided.
 
     --dfam_h5_url <url>
-        https://www.dfam.org/releases/Dfam_3.8/families/FamDB/dfam38_full.0.h5.gz
+        https://www.dfam.org/releases/Dfam_3.8/families/FamDB/dfam38-1_full.0.h5.gz
         The url to download the Dfam HMMs from if `--dfam_h5` isn't provided.
 
     --dfam_embl <path>
@@ -249,7 +249,7 @@ params.repbase = false
 params.rm_meta = false
 
 params.dfam_h5 = false
-params.dfam_h5_url = "https://www.dfam.org/releases/Dfam_3.8/families/FamDB/dfam38_full.0.h5.gz"
+params.dfam_h5_url = "https://www.dfam.org/releases/Dfam_3.8/families/FamDB/dfam38-1_full.0.h5.gz"
 
 params.dfam_embl = false
 params.dfam_embl_url = "http://dfam.org/releases/current/families/Dfam-1.embl.gz"
