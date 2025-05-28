@@ -1520,7 +1520,7 @@ process searchProfilesVsGenomes {
 
     label "mmseqs"
     label "medium_task"
-    time "4h"
+    time "8h"
 
     tag "${name} - ${db}"
     publishDir "${params.outdir}/${name}/tes"
