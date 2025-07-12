@@ -1714,7 +1714,7 @@ process runLtrHarvest {
 
     label "genometools"
     label "small_task"
-    time "4h"
+    time "12h"
 
     tag "${name}"
 
